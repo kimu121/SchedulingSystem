@@ -1,8 +1,12 @@
 <?php
+// api/config.php
+
 function getConnection(): mysqli {
     // 1. If we are on local XAMPP, load the .env file. 
-    // On Render, this file won't exist, so it safely skips this block!
-    $envPath = DIR . '/../../.env'; 
+    // Using _DIR_ correctly points to the directory of this file, 
+    // and '/../.env' goes up one level to the project root.
+    $envPath = _DIR_ . '/../.env'; 
+    
     if (file_exists($envPath)) {
         $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($lines as $line) {
@@ -14,7 +18,7 @@ function getConnection(): mysqli {
         }
     }
 
-    // 2. Grab the variables (works for both XAMPP's .env AND Render's settings!)
+    // 2. Grab the variables (works for both XAMPP's .env AND Render's settings)
     $host = getenv('SS_Host');
     $user = getenv('SS_User'); 
     $pass = getenv('SS_Password');
@@ -39,3 +43,8 @@ function getConnection(): mysqli {
     $conn->set_charset('utf8mb4');
     return $conn;
 }
+
+// 4. Initialize the connection globally
+// This ensures that when dashboard.php requires this file, $conn is defined and ready.
+$conn = getConnection();
+?>

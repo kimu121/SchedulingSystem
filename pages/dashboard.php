@@ -2,14 +2,17 @@
 // pages/dashboard.php - Dashboard page
 require_once '../api/config.php';
 
-$page_title = 'Dashboard -  Scheduling System';
+$page_title = 'Dashboard - Scheduling System';
 
 // Get statistics
 $schedule_count = $conn->query("SELECT COUNT(*) as count FROM schedule")->fetch_assoc()['count'];
 $reservation_count = $conn->query("SELECT COUNT(*) as count FROM reservations")->fetch_assoc()['count'];
 $room_count = $conn->query("SELECT COUNT(*) as count FROM rooms")->fetch_assoc()['count'];
 $pending_reservations = $conn->query("SELECT COUNT(*) as count FROM reservations WHERE status='Pending'")->fetch_assoc()['count'];
-$total_capacity = $conn->query("SELECT SUM(capacity) as total FROM rooms")->fetch_assoc()['total'];
+
+// Added a fallback to 0 in case the rooms table is empty to prevent null errors
+$capacity_result = $conn->query("SELECT SUM(capacity) as total FROM rooms")->fetch_assoc()['total'];
+$total_capacity = $capacity_result ? $capacity_result : 0;
 
 include '../includes/header.php';
 include '../includes/navbar.php';
@@ -57,7 +60,6 @@ include '../includes/navbar.php';
                 <small class="text-muted">Total capacity: <?php echo $total_capacity; ?></small>
             </div>
         </div>
-        <!-- REMOVED: Resources card -->
     </div>
 
     <!-- Quick Generate Button -->
