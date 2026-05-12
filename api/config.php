@@ -1,17 +1,41 @@
 <?php
-// api/config.php
-session_start();
+function getConnection(): mysqli {
+    // 1. If we are on local XAMPP, load the .env file. 
+    // On Render, this file won't exist, so it safely skips this block!
+    $envPath = DIR . '/../../.env'; 
+    if (file_exists($envPath)) {
+        $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (strpos(trim($line), '#') === 0) continue;
+            $parts = explode('=', $line, 2);
+            if (count($parts) === 2) {
+                putenv(trim($parts[0]) . '=' . trim($parts[1]));
+            }
+        }
+    }
 
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'scheduling_system';
+    // 2. Grab the variables (works for both XAMPP's .env AND Render's settings!)
+    $host = getenv('SS_Host');
+    $user = getenv('SS_User'); 
+    $pass = getenv('SS_Password');
+    $db   = getenv('SS_DataBase_NAME'); 
+    $port = getenv('SS_PORT') ?: 3306; 
 
-$conn = new mysqli($host, $username, $password, $database);
+    mysqli_report(MYSQLI_REPORT_OFF);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    // 3. Connect to the database
+    $conn = new mysqli($host, $user, $pass, $db, (int)$port);
+
+    if ($conn->connect_error) {
+        http_response_code(500);
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Database connection failed: ' . $conn->connect_error
+        ]);
+        exit;
+    }
+
+    $conn->set_charset('utf8mb4');
+    return $conn;
 }
-
-date_default_timezone_set('Asia/Manila');
-?>
