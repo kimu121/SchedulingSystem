@@ -5,7 +5,7 @@ function getConnection(): mysqli {
     // 1. If we are on local XAMPP, load the .env file. 
     // Using _DIR_ correctly points to the directory of this file, 
     // and '/../.env' goes up one level to the project root.
-    $envPath = _DIR_ . '/../.env'; 
+    $envPath = __DIR__ . '/../.env'; 
     
     if (file_exists($envPath)) {
         $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
