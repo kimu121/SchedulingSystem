@@ -1,6 +1,6 @@
 <?php
 // pages/ai_generator.php - Schedule Generator (AI removed, drag-drop kept)
-require_once '../api/config.php';
+require_once './api/config.php';
 
 $page_title = 'Schedule Generator -  Scheduling System';
 $extra_css = '<link rel="stylesheet" href="../assets/css/ai_generator.css">';

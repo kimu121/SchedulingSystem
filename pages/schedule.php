@@ -1,6 +1,6 @@
 <?php
 // pages/schedule.php - View instructor and facility schedules
-require_once '../api/config.php';
+require_once './api/config.php';
 
 $page_title = 'Schedule View - Scheduling System';
 $view_type = isset($_GET['view']) ? $_GET['view'] : 'instructor';

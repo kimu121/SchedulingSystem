@@ -1,6 +1,6 @@
 <?php
 // pages/rooms.php - View rooms and their schedules
-require_once '../api/config.php';
+require_once './api/config.php';
 
 $page_title = 'Rooms - Scheduling System';
 $filter_building = isset($_GET['building']) ? $_GET['building'] : '';
