@@ -3,7 +3,7 @@
 
 function getConnection(): mysqli {
     // 1. If we are on local XAMPP, load the .env file. 
-    // Using _DIR_ correctly points to the directory of this file, 
+    // Using __DIR__ correctly points to the directory of this file, 
     // and '/../.env' goes up one level to the project root.
     $envPath = __DIR__ . '/../.env'; 
     
@@ -22,26 +22,49 @@ function getConnection(): mysqli {
     $host = getenv('SS_Host');
     $user = getenv('SS_User'); 
     $pass = getenv('SS_Password');
-    $db   = getenv('SS_DataBase_NAME'); 
-    $port = getenv('SS_PORT') ?: 3306; 
+    // Fix: Match the actual environment variable name from Render
+    $db   = getenv('SS_DataBase_NAME') ?: getenv('SS_DataBase_NAME'); // Try both possible names
+    $port = getenv('SS_PORT') ?: 25926; // Default to Aiven port
 
-    mysqli_report(MYSQLI_REPORT_OFF);
+    // Enable exception mode for mysqli
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    // 3. Connect to the database
-    $conn = new mysqli($host, $user, $pass, $db, (int)$port);
+    try {
+        // 3. Connect to the database with SSL
+        $conn = mysqli_init();
+        
+        // Set SSL options for Aiven
+        mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+        
+        // Set connection timeout
+        mysqli_options($conn, MYSQLI_OPT_CONNECT_TIMEOUT, 10);
+        
+        // Connect
+        if (!mysqli_real_connect(
+            $conn,
+            $host,
+            $user,
+            $pass,
+            $db,
+            (int)$port,
+            NULL,
+            MYSQLI_CLIENT_SSL
+        )) {
+            throw new Exception('Connection failed: ' . mysqli_connect_error());
+        }
 
-    if ($conn->connect_error) {
+        $conn->set_charset('utf8mb4');
+        return $conn;
+        
+    } catch (Exception $e) {
         http_response_code(500);
         header('Content-Type: application/json');
         echo json_encode([
             'status'  => 'error',
-            'message' => 'Database connection failed: ' . $conn->connect_error
+            'message' => 'Database connection failed: ' . $e->getMessage()
         ]);
         exit;
     }
-
-    $conn->set_charset('utf8mb4');
-    return $conn;
 }
 
 // 4. Initialize the connection globally
