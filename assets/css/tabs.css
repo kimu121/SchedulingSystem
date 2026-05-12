@@ -1,0 +1,273 @@
+/* assets/css/tabs.css - Enhanced Tab Navigation Styles */
+
+/* ============================================ */
+/* PILL TABS - Alternative tab style */
+/* ============================================ */
+.nav-pills {
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.nav-pills .nav-link {
+    color: var(--primary-dark);
+    background: white;
+    border-radius: 30px;
+    padding: 0.8rem 1.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid #e8f5e9;
+}
+
+.nav-pills .nav-link:hover {
+    background: #f1f8e9;
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+.nav-pills .nav-link i {
+    margin-right: 0.5rem;
+}
+
+/* ============================================ */
+/* UNDERLINE TABS */
+/* ============================================ */
+.nav-underline {
+    border-bottom: 2px solid #e8f5e9;
+    gap: 1rem;
+}
+
+.nav-underline .nav-link {
+    color: #6c757d;
+    font-weight: 500;
+    padding: 0.8rem 0;
+    margin: 0 0.5rem;
+    border: none;
+    background: transparent;
+    position: relative;
+}
+
+.nav-underline .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.nav-underline .nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-underline .nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-underline .nav-link.active::after {
+    width: 100%;
+}
+
+/* ============================================ */
+/* TAB CONTENT PANELS */
+/* ============================================ */
+.tab-content {
+    padding: 1.5rem 0;
+}
+
+.tab-pane {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tab-pane.active {
+    opacity: 1;
+}
+
+.tab-pane.fade {
+    transition: opacity 0.15s linear;
+}
+
+.tab-pane.fade:not(.show) {
+    opacity: 0;
+    display: none;
+}
+
+/* ============================================ */
+/* TAB WITH BADGES */
+/* ============================================ */
+.nav-tabs .badge-tab,
+.nav-pills .badge-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-tabs .badge-count,
+.nav-pills .badge-count {
+    background: rgba(46, 125, 50, 0.15);
+    color: var(--primary-dark);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+.nav-tabs .nav-link.active .badge-count,
+.nav-pills .nav-link.active .badge-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+/* ============================================ */
+/* VERTICAL TABS (For settings pages) */
+/* ============================================ */
+.nav-tabs-vertical {
+    display: flex;
+    flex-direction: column;
+    border-bottom: none;
+    border-right: 2px solid #e8f5e9;
+    height: 100%;
+}
+
+.nav-tabs-vertical .nav-link {
+    border: none;
+    border-radius: 12px 0 0 12px;
+    margin: 0.2rem 0;
+    padding: 1rem 1.5rem;
+    color: var(--dark-text);
+    text-align: left;
+    border-right: 3px solid transparent;
+}
+
+.nav-tabs-vertical .nav-link:hover {
+    background: #f1f8e9;
+    border-right-color: var(--primary-light);
+}
+
+.nav-tabs-vertical .nav-link.active {
+    background: linear-gradient(90deg, #f1f8e9, white);
+    color: var(--primary-color);
+    border-right: 3px solid var(--primary-color);
+    font-weight: 600;
+}
+
+/* ============================================ */
+/* SCROLLABLE TABS */
+/* ============================================ */
+.tabs-scrollable {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-bottom: 5px;
+}
+
+.tabs-scrollable::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tabs-scrollable::-webkit-scrollbar-track {
+    background: #e8f5e9;
+    border-radius: 4px;
+}
+
+.tabs-scrollable::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 4px;
+}
+
+.tabs-scrollable .nav-tabs,
+.tabs-scrollable .nav-pills {
+    flex-wrap: nowrap;
+}
+
+.tabs-scrollable .nav-item {
+    display: inline-block;
+    float: none;
+}
+
+/* ============================================ */
+/* ANIMATED TAB TRANSITIONS */
+/* ============================================ */
+@keyframes tabFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tab-pane.active {
+    animation: tabFadeIn 0.3s ease-out;
+}
+
+/* ============================================ */
+/* TAB CARD CONTAINER */
+/* ============================================ */
+.tab-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(46, 125, 50, 0.1);
+    overflow: hidden;
+}
+
+.tab-card .card-header {
+    background: white;
+    border-bottom: 2px solid #e8f5e9;
+    padding: 0;
+}
+
+.tab-card .card-header .nav-tabs {
+    margin-bottom: -2px;
+    padding: 0.5rem 1rem 0;
+}
+
+.tab-card .card-body {
+    padding: 1.5rem;
+    background: white;
+}
+
+/* ============================================ */
+/* RESPONSIVE FIXES */
+/* ============================================ */
+@media (max-width: 768px) {
+    .nav-tabs .nav-link,
+    .nav-pills .nav-link {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .nav-tabs-vertical {
+        border-right: none;
+        border-bottom: 2px solid #e8f5e9;
+        flex-direction: row;
+        overflow-x: auto;
+        margin-bottom: 1rem;
+    }
+    
+    .nav-tabs-vertical .nav-link {
+        border-radius: 12px 12px 0 0;
+        border-right: none;
+        border-bottom: 3px solid transparent;
+        white-space: nowrap;
+    }
+    
+    .nav-tabs-vertical .nav-link.active {
+        border-right: none;
+        border-bottom: 3px solid var(--primary-color);
+    }
+}
