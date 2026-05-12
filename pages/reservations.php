@@ -1,6 +1,6 @@
 <?php
 // pages/reservations.php - Manage resource reservations
-require_once './api/config.php';
+require_once '../api/config.php';
 
 $page_title = 'Reservations - CCST Scheduling System';
 

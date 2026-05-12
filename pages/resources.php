@@ -1,6 +1,6 @@
 <?php
 // pages/resources.php - Manage resources
-require_once './api/config.php';
+require_once '../api/config.php';
 
 $page_title = 'Resources - Scheduling System';
 

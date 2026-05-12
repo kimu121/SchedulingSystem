@@ -1,6 +1,6 @@
 <?php
 // pages/dashboard.php - Dashboard page
-require_once './api/config.php';
+require_once '../api/config.php';
 
 $page_title = 'Dashboard -  Scheduling System';
 
